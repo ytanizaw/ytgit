@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//TrioAnalysis/compareVCF.py=utf-8
+encoding//TrioAnalysis/stat4compareVCF.py=utf-8
+encoding//TrioAnalysis/trianalysis.py=utf-8
+encoding//TrioAnalysis/trio.py=utf-8
+encoding//TrioAnalysis/trio3.py=utf-8
+encoding//extractUnmappedFASTQ/extractUnmappedFASTQ.py=utf-8
+encoding//fileListCreator/fileListCreator_allpaths.py=utf-8
+encoding//fileListCreator/fileListCreator_allpaths_ParaRubber.py=utf-8
+encoding//pairChecker/pairChecker.py=utf-8
+encoding//pairChecker/pairChecker2.py=utf-8
+encoding//repeatMasker/ClassMaskedSequence.py=utf-8
+encoding//repeatMasker/fastqTool.py=utf-8
+encoding//repeatMasker/removeMaskedSeq1.py=utf-8
+encoding//repeatMasker/removeMaskedSequence.py=utf-8
