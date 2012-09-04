@@ -50,27 +50,26 @@ class SAM:
                 if sam.seq1=="":break
                 yield sam
 
-###################################
-#### Main Part Start From Here. ###
-###################################
 
-if len(sys.argv)!=6:
-    print "Invalid Parameters.\nUsage : extractUnmappedFASTQ.py <inputFASTQfile_1> <inputFASTQfile_2> <SAMfile> <outputFASTQfile_1> <outputFASTQfile_2>"
-    exit()
+filename1="/Users/ytanizaw/Desktop/extractUnmappedFASTQ/ecoli/ecolitest_A.fastq"
+filename2="/Users/ytanizaw/Desktop/extractUnmappedFASTQ/ecoli/ecolitest_B.fastq"
+samfilename="/Users/ytanizaw/Desktop/extractUnmappedFASTQ/ecoli/sam/out.sam"
 
-FASTQfileName1, FASTQfileName2, SAMfileName, outputFASTQ1, outputFASTQ2 = sys.argv[1:6]
-
-outputFile1=open(outputFASTQ1,'w')
-outputFile2=open(outputFASTQ2,'w')
-gen1, gen2, genSAM = FASTQ.FASTQreader(FASTQfileName1),FASTQ.FASTQreader(FASTQfileName2),SAM.SAMreader(SAMfileName, isPaired=True)
-
+gen1, gen2, genSAM = FASTQ.FASTQreader(filename1),FASTQ.FASTQreader(filename2),SAM.SAMreader(samfilename, isPaired=True)
+i=0
 for i,(fastq1,fastq2,sam) in enumerate(izip(gen1, gen2, genSAM)):
+    #print fastq1.getSequenceName(), fastq2.getSequenceName(),sam.seq1.split("\t")[0],sam.seq2.split("\t")[0]
 
     if (fastq1.getSequenceName() != sam.seq1.split("\t")[0]) or (fastq2.getSequenceName() != sam.seq2.split("\t")[0]):
-        print "PAIR MISMATCH!!   LINE",i,fastq1.getSequenceName()
-    if sam.seq1.split("\t")[2]=="*" and sam.seq2.split("\t")[2]=="*":  #remove seq if either read of the pair is mapped
-        fastq1.writeMySelf(outputFile1)
-        fastq2.writeMySelf(outputFile2)
+        print "PAIR MISMATCH!!"
+    if sam.seq1.split("\t")[2]!="*" or sam.seq2.split("\t")[2]!="*":  #remove seq if either read of the pair is mapped
+        pass
 
-outputFile1.close()
-outputFile2.close()
+        print i,"remove"
+    else:
+        pass
+        #print "KEEP",fastq1.header1,fastq2.header1
+#for fastq1,fastq2,sam in izip(genL):
+#    i +=1
+#    print fastq1.getSequenceName(),fastq2.getSequenceName(),sam.seq1[:10]
+#    if i==10:break
