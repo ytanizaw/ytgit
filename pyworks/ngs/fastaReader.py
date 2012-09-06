@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+#coding:utf-8
 import TopN
 import sys
 class Fasta():
@@ -27,11 +29,9 @@ class Fasta():
                     fasta.header=line.strip()
                 else:
                     fasta.seq += line.strip()
-
-                if not line:
-                    fasta.length=len(fasta.seq)
-                    print fasta.seq
-                    yield fasta
+        #eof
+        fasta.length=len(fasta.seq)
+        yield fasta
 
 
 class TopN_FASTA(TopN.TopN):
@@ -43,20 +43,20 @@ class TopN_FASTA(TopN.TopN):
         return str([item.header for item in self._items])
 
 
-def testTopN():
-    fileName='/Users/ytanizaw/Desktop/ParaRubber/PR_80_20_contig.fa'
+def getTopN(fileName,N=5):
+#    fileName='/Users/ytanizaw/Desktop/ParaRubber/PR_80_20_contig.fa'
 
-    top5=TopN_FASTA(5)
+    topN=TopN_FASTA(N)
 
     for i,seq in enumerate(Fasta.FASTAreader(fileName)):
         #print i,seq.header,seq.length
-        top5.add(seq)
-        if i==100:break
+        topN.add(seq)
 
-    print top5
-    print top5[0].length
+    for fastaSeq in topN:
+        print fastaSeq.header
+        print fastaSeq.seq
 
-def n50(fileName=None,threshold=100):
+def stat(fileName=None,threshold=100):
     if fileName is None:
         fileName='/Users/ytanizaw/Desktop/ParaRubber/PR_80_20_contig.fa'
     seqList=[]
@@ -64,7 +64,7 @@ def n50(fileName=None,threshold=100):
         if seq.length >= threshold:
             seqList.append(seq.length)
     seqList.sort(reverse=True)
-    print seqList[:30]
+    print "LENGTH of 10 LONGEST SEQUENCES: ", seqList[:10]
 
     TotalLength=sum(seqList)
     print "For SEQUENCE LONGER THAN",threshold,"bp"
@@ -78,13 +78,17 @@ def n50(fileName=None,threshold=100):
             break
 
 if __name__=="__main__":
-    if len(sys.argv)>1:
-        fileName=sys.argv[1]
+    if len(sys.argv)!=4:
+        print "INVALID NUMBER OF ARGS. Give command, int, filename"
+        print "command { top  or  stat }"
+        print "int { Num of Sequences for top  or   Minimum Sequence Length for stat }"
+        print "filename { file name for FASTA }"
+        exit()
+    command, num, fileName = sys.argv[1:4]
+    if command=="top":
+        getTopN(fileName, int(num))
+    elif command=="stat":
+        stat(fileName, int(num))
     else:
-        fileName = None
-    if len(sys.argv)>2:
-        threshold=int(sys.argv[2])
-    else:
-        threshold = 1000
-
-    n50(fileName,threshold)
+        print "INVALID COMMAND NAME. Select top or stat."
+        exit()
