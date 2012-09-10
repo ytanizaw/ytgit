@@ -9,6 +9,19 @@ class FASTQseq:
         self.qvType = qvType
         self.isRemoved = False
 
+    @classmethod
+    def FASTQreader(cls,fastqFileName, qvType=33):
+        with open(fastqFileName) as f:
+            while True:
+                fastq=FASTQseq(f,qvType)
+                if fastq.header1=="":
+                    break
+                yield fastq
+
+    def subSequence(self,start, end):
+        self.baseSeq=self.baseSeq[start:end]
+        self.qvSeq=self.qvSeq[start:end]
+
     def trim3(self, qvThreshold=20, lengthThreshold=25):
         '''Trimming bases for 3'end with QV <= qvThreshold'''
         for i, qvalue in enumerate(self.qvSeq[::-1]):
@@ -65,3 +78,42 @@ class FASTQseq:
         print self.baseSeq
         print self.header2
         print self.qvSeq
+
+    def writeAsFasta(self,outputFile):
+        outputFile.write(self.header1+"\n")
+        BasesPerRow=60
+        for i in range(len(self.baseSeq)/BasesPerRow + 1):
+            outputFile.write(self.baseSeq[i*BasesPerRow:(i+1)*BasesPerRow]+"\n")
+    def showAsFasta(self):
+        print(self.header1)
+        BasesPerRow=60
+        for i in range(len(self.baseSeq)/BasesPerRow + 1):
+            print(self.baseSeq[i*BasesPerRow:(i+1)*BasesPerRow])
+
+    @classmethod
+    def countSequences(tmpCls,inputFileName):
+        count=0
+        with open(inputFileName) as f:
+            while f.readline():
+                count += 1
+        return count / 4
+
+
+def test():
+    from itertools import izip
+    file1="/Users/ytanizaw/Desktop/preprocess_QQVcheck_test/QVtest1.fastq"
+    file2="/Users/ytanizaw/Desktop/preprocess_QQVcheck_test/QVtest2.fastq"
+    reader1=FASTQseq.FASTQreader(file1)
+    reader2=FASTQseq.FASTQreader(file1)
+    for seq1,seq2 in izip(reader1, reader2):
+
+        seq1.showMyself()
+        seq1.subSequence(5,10)
+        seq1.showMyself()
+
+def trimMP(inputFile, outputFile, length):
+    with open(outputFile, "w") as f:
+        reader=FASTQseq.FASTQreader(inputFile)
+        for seq in reader:
+            seq.subSequence(0,length)
+            seq.writeMySelf(f)

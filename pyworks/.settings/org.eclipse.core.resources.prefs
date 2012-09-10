@@ -11,6 +11,7 @@ encoding//fileListCreator/fileListCreator_allpaths.py=utf-8
 encoding//fileListCreator/fileListCreator_allpaths_ParaRubber.py=utf-8
 encoding//ngs/TopN.py=utf8
 encoding//ngs/TopNstring.py=utf8
+encoding//ngs/fastaPlotter.py=utf8
 encoding//ngs/fastaReader.py=utf-8
 encoding//ngs/fastqSeq.py=utf-8
 encoding//pairChecker/pairChecker.py=utf-8
