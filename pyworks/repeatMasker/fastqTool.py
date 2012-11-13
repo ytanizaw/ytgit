@@ -27,7 +27,7 @@ class FASTQseq:
         outputFile.write(self.header1+"\n")
         BasesPerRow=60
         for i in range(len(self.baseSeq)/BasesPerRow + 1):
-            outputFile.write(self.baseSeq[i*BasesPerRow:(i+1)*BasesPerRow])
+            outputFile.write(self.baseSeq[i*BasesPerRow:(i+1)*BasesPerRow]+"\n")
     def showAsFasta(self):
         print(self.header1)
         BasesPerRow=60

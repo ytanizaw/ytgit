@@ -43,7 +43,7 @@ class SAM:
                 if line.startswith("@"): continue
                 else: break
         with open(fileName) as f:
-            for i in range(num):
+            for _ in range(num):
                 f.readline()   #skip header for "num" times
             while True:
                 sam=SAM(f,isPaired)

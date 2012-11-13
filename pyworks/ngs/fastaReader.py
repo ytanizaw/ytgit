@@ -3,6 +3,9 @@
 import TopN
 import sys
 class Fasta():
+    '''a class which expresses each Fasta sequence.
+    This class has 3 informations. Header, Base Sequence, Sequence Length
+    '''
     def __init__(self):
         self.seq=''
         self.header=''
@@ -33,6 +36,11 @@ class Fasta():
         fasta.length=len(fasta.seq)
         yield fasta
 
+    def writeSeq(self, outputFile):
+        outputFile.write(self.header+"\n")
+        BasesPerRow=60
+        for i in range((self.length)/BasesPerRow + 1):
+            outputFile.write(self.seq[i*BasesPerRow:(i+1)*BasesPerRow]+"\n")
 
 class TopN_FASTA(TopN.TopN):
 
