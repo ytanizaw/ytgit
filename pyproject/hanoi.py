@@ -7,12 +7,13 @@ class Hanoi:
         self.right=[]
 
     def show(self):
-        n=self.height
         def getNth(x,n):
             try:
                 return x[n]
             except IndexError:
                 return 0
+        
+        n=self.height
         ret=[]
         for i in range(n):
             ret.append((getNth(self.left,i), getNth(self.center,i) ,getNth(self.right,i)))
