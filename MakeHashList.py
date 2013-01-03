@@ -12,6 +12,7 @@ INPUTFILE='testin.txt'
 OUTPUTFILE='testout3.txt'
 LOGFILE='test3.log'
 
+#test
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(levelname)-8s %(message)s',
